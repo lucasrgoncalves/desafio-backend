@@ -1,0 +1,29 @@
+services:
+  laravel: #Funcionando
+    container_name: app-laravel
+    build: .
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    volumes:
+      - ./:/usr/share/nginx
+
+  mysql: #Funcionando
+    image: mysql:5.7.22
+    container_name: mysql5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
