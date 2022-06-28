@@ -24,6 +24,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 <p><b>OBS:</b> Caso seu sistema operacional seja o Windows, recomendo utilizar o Cmder para que todos os comandos sejam aceitos.</p>
 <p><b>Link para Download:</b> https://cmder.net/ </p>
 
+<p>Comandos:</p>
 <ul>
     <p><code>composer install</code></p>
     <p><code>ln -s public html</code></p>
