@@ -7,6 +7,8 @@ Fazemos parte do universo digital, focada em criar e desenvolver experiências i
 
 Conheça mais sobre nós em: [OW Interactive - Quem somos](http://www.owinteractive.com/quem-somos/).
 
+Detalhes do Desafio em: https://github.com/owInteractive/desafio-backend
+
 ## Requisitos:
 Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linux):
 <ul>
