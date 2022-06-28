@@ -14,6 +14,9 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
     <li>Composer</li>
 </ul>
 
+## Documentação da API:
+<p><code>https://app.swaggerhub.com/apis-docs/LUCAS_1/API-desafio/1.0.0#/</code></p>
+
 ## Como utilizar:
 
 <p>1-Iniciar o Docker.</p>
@@ -37,22 +40,23 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 <ul>
     <p><code>nano /etc/nginx/conf.d/default.conf</code></p>
 </ul>
-<p>5-Localizar a tag "location" e dentro dela realizar a seguinte alteração:</p>
+<p>6-Localizar a tag "location" e dentro dela realizar a seguinte alteração:</p>
 <ul>
     <p>A string em negrito "$uri/index.html" deve ser removida;</p>
     <p><code>ANTES: try_files $uri/ /index.php?$query_string <b>$uri/index.html</b>;</code></p>
     <p><code>DEPOIS: try_files $uri/ /index.php?$query_string;</code></p>
     <p>Após realizar a alteração, pressionar as teclas CTRL + O para salvar e em seguida CTRL + X para sair.</p>
 </ul>
-<p>6-Neste momento o ambiente está pronto para ser utilizado e para isso, acessar a seguinte URL:</p>
+<p>7-Reiniciar o serviço do NGINX através do comando:</p>
+<ul>
+    <p><code>/etc/init.d/nginx restart</code></p>
+</ul>
+<p>8-Neste momento o ambiente está pronto para ser utilizado e para isso, acessar a seguinte URL:</p>
 <ul>
     <p><code>http://localhost:8080/api/user</code></p>
 </ul>
-<p>7-Utilizar o Postman ou outra plataforma para realizar os testes na API.</p>
-<p>8-Para verificar a documentação da API, acessar a seguinte URL:</p>
-<ul>
-    <p><code>http://localhost:8080/api/user](https://app.swaggerhub.com/apis-docs/LUCAS_1/API-desafio/1.0.0#/)</code></p>
-</ul>
+<p>9-Utilizar o Postman ou outra plataforma para realizar os testes na API.</p>
+
 
 ## Recursos Utilizados:
 
@@ -63,4 +67,5 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
     <li>PHP 8</li>
     <li>MySQL 5.7</li>
     <li>NGINX</li>
+    <li>Swagger API Documentation</li>
 </ul>
