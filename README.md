@@ -34,7 +34,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 </ul>
 <p>4-Em seguida, executar o comando:</p>
 <ul>
-    <p><code>php artisan migrate --seed</code></p>
+    <p><code>php artisan migrate:fresh --seed</code></p>
 </ul>
 <p>5-Acessar o arquivo do NGINX através do comando:</p>
 <ul>
