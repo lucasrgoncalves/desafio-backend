@@ -26,7 +26,6 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 
 <p>Comandos:</p>
 <ul>
-    <p><code>composer install</code></p>
     <p><code>ln -s public html</code></p>
     <p><code>chmod 777 -R storage/*</code></p>
     <p><code>chmod 777 -R bootstrap/*</code></p>
@@ -38,6 +37,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 </ul>
 <p>4-Em seguida, executar o comando:</p>
 <ul>
+    <p><code>composer install</code></p>
     <p><code>php artisan migrate:fresh --seed</code></p>
 </ul>
 <p>5-Acessar o arquivo do NGINX através do comando:</p>
@@ -49,7 +49,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
     <p>A string em negrito "$uri/index.html" deve ser removida;</p>
     <p><code>ANTES: try_files $uri/ /index.php?$query_string <b>$uri/index.html</b>;</code></p>
     <p><code>DEPOIS: try_files $uri/ /index.php?$query_string;</code></p>
-    <p>Após realizar a alteração, pressionar as teclas CTRL + O para salvar e em seguida CTRL + X para sair.</p>
+    <p>Após realizar a alteração, pressionar as teclas CTRL + O + ENTER para salvar e em seguida CTRL + X para sair.</p>
 </ul>
 <p>7-Reiniciar o serviço do NGINX através do comando:</p>
 <ul>
