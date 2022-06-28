@@ -21,12 +21,16 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 
 <p>1-Iniciar o Docker.</p>
 <p>2-Abrir o terminal dentro da pasta do projeto e executar os seguintes comandos:</p>
+<p><b>OBS:</b> Caso seu sistema operacional seja o Windows, recomendo utilizar o Cmder para que todos os comandos sejam aceitos.</p>
+<p><b>Link para Download:</b> https://cmder.net/ </p>
+
+<p>Comandos:</p>
 <ul>
     <p><code>composer install</code></p>
     <p><code>ln -s public html</code></p>
     <p><code>chmod 777 -R storage/*</code></p>
     <p><code>chmod 777 -R bootstrap/*</code></p>
-    <p><code>docker-compose up -d</code></p>
+    <p><code>docker-compose up -d --build</code></p>
 </ul>
 <p>3-Acessar o container chamado app-laravel através do comando:</p>
 <ul>
