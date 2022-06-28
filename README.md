@@ -21,6 +21,9 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 
 <p>1-Iniciar o Docker.</p>
 <p>2-Abrir o terminal dentro da pasta do projeto e executar os seguintes comandos:</p>
+<p><b>OBS:</b> Caso seu sistema operacional seja o Windows, recomendo utilizar o Cmder para que todos os comandos sejam aceitos.</p>
+<p><b>Link para Download:</b> https://cmder.net/ </p>
+
 <ul>
     <p><code>composer install</code></p>
     <p><code>ln -s public html</code></p>
