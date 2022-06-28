@@ -26,7 +26,6 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 
 <p>Comandos:</p>
 <ul>
-    <p><code>composer install</code></p>
     <p><code>ln -s public html</code></p>
     <p><code>chmod 777 -R storage/*</code></p>
     <p><code>chmod 777 -R bootstrap/*</code></p>
@@ -38,6 +37,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 </ul>
 <p>4-Em seguida, executar o comando:</p>
 <ul>
+    <p><code>composer install</code></p>
     <p><code>php artisan migrate:fresh --seed</code></p>
 </ul>
 <p>5-Acessar o arquivo do NGINX através do comando:</p>
