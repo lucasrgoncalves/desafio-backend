@@ -1,5 +1,5 @@
 services:
-  laravel: #Funcionando
+  laravel:
     container_name: app-laravel
     build: .
     ports:
@@ -9,8 +9,9 @@ services:
     volumes:
       - ./:/usr/share/nginx
 
-  mysql: #Funcionando
+  mysql:
     image: mysql:5.7.22
+    platform: 'linux/x86_64'
     container_name: mysql5.7
     ports:
       - "3306:3306"
