@@ -30,7 +30,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
     <p><code>ln -s public html</code></p>
     <p><code>chmod 777 -R storage/*</code></p>
     <p><code>chmod 777 -R bootstrap/*</code></p>
-    <p><code>docker-compose up -d</code></p>
+    <p><code>docker-compose up -d --build</code></p>
 </ul>
 <p>3-Acessar o container chamado app-laravel através do comando:</p>
 <ul>
