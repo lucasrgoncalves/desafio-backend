@@ -49,7 +49,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
     <p>A string em negrito "$uri/index.html" deve ser removida;</p>
     <p><code>ANTES: try_files $uri/ /index.php?$query_string <b>$uri/index.html</b>;</code></p>
     <p><code>DEPOIS: try_files $uri/ /index.php?$query_string;</code></p>
-    <p>Após realizar a alteração, pressionar as teclas CTRL + O para salvar e em seguida CTRL + X para sair.</p>
+    <p>Após realizar a alteração, pressionar as teclas CTRL + O + ENTER para salvar e em seguida CTRL + X para sair.</p>
 </ul>
 <p>7-Reiniciar o serviço do NGINX através do comando:</p>
 <ul>
