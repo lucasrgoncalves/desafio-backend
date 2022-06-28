@@ -35,7 +35,7 @@ Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linu
 <ul>
     <p><code>docker exec -it app-laravel bash</code></p>
 </ul>
-<p>4-Em seguida, executar o comando:</p>
+<p>4-Em seguida, executar os comandos:</p>
 <ul>
     <p><code>composer install</code></p>
     <p><code>php artisan migrate:fresh --seed</code></p>
