@@ -13,7 +13,6 @@ Detalhes do Desafio em: https://github.com/owInteractive/desafio-backend
 Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linux):
 <ul>
     <li>Docker</li>
-    <li>Composer</li>
 </ul>
 
 ## Documentação da API:
