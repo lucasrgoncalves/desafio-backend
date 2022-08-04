@@ -11,7 +11,7 @@ export default class UsersController {
 
     let newUser = await User.create(data)
 
-    return response.status(400).send({ message: "Usuário cadastrado com sucesso!", user: newUser })
+    return response.status(201).send({ user: newUser })
   }
 
   public async show({ params, response }: HttpContextContract) {
@@ -20,7 +20,7 @@ export default class UsersController {
     let user = await User.find(id)
 
     if (!user) {
-      return response.status(404).send({ message: "Usuário não existe" })
+      return response.status(404)
     }
 
     return user
@@ -32,7 +32,7 @@ export default class UsersController {
     let user = await User.find(id)
 
     if (!user) {
-      return response.status(404).send({ message: "Usuário não existe!" })
+      return response.status(404)
     }
 
     let data = request.only(['name', 'email', 'password', 'birthday'])
@@ -41,16 +41,16 @@ export default class UsersController {
     await user.save()
     await user.refresh()
 
-    return response.status(200).send({ message: "Usuário atualizado com sucesso!", user: user })
+    return response.status(200).send({ user: user })
   }
 
-  public async destroy({ params, response }: HttpContextContract) {
+  public async destroy({ params, response, auth }: HttpContextContract) {
     let { id } = params
 
     let user = await User.find(id)
 
-    if (!user) {
-      return response.status(404).send({ message: "Usuário não existe" })
+    if (!user || auth.user!.id == user.id) {
+      return response.status(404)
     }
 
     await user!.delete()

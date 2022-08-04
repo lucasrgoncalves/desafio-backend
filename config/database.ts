@@ -35,6 +35,9 @@ const databaseConfig: DatabaseConfig = {
     */
     mysql: {
       client: 'mysql',
+      seeders: {
+        paths: ['./database/seeders/MainSeeder']
+      },
       connection: {
         host: Env.get('MYSQL_HOST'),
         port: Env.get('MYSQL_PORT'),

@@ -6,8 +6,6 @@ services:
     container_name: desafio-mysql57
     ports:
       - "3306:3306"
-    volumes:
-      - .docker/dbdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DB_NAME}
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}

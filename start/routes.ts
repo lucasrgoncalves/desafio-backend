@@ -15,6 +15,11 @@ Route.group(() => {
     
     Route.resource('users', 'UsersController').apiOnly()
     
+    Route.resource('accounts', 'AccountsController').apiOnly()
+
+    Route.resource('movements', 'MovementsController').apiOnly()
+    Route.get('sumMovements/:user_id', 'MovementsController.sumMovements')
+    
   }).middleware('auth')
 
 }).prefix('/api')
