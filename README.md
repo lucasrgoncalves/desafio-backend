@@ -59,7 +59,7 @@ Nessa etapa daremos algumas premissas que devem ser seguidas.
 Nessa etapa você precisará criar a modelagem e lógica para implementar as funcionalidades abaixo:
 
 - Criar um endpoint ou endpoint`s onde é possível associar uma operação de débito, crédito ou estorno para o usuário;
-- Criar um endpoint onde seja possível visualizar toda a movimentação (páginada) do usuários mais as suas informações pessoais;
+- Criar um endpoint onde seja possível visualizar toda a movimentação (paginada) do usuários mais as suas informações pessoais;
 - Criar um endpoint onde seja possível excluir uma movimentação relacionada a um usuário;
 - Criar um endpoint onde é retornado um arquivo no formato (csv) com 3 tipos de filtros para as movimentações:
   - Últimos 30 dias;
@@ -79,7 +79,7 @@ Nessa etapa serão itens onde veremos como você pensou e como chegou ao resulta
 - Criar validações com base na Request;
 - Utilizar cache para otimizar as consultas e buscas;
 - Criar Seeders ou Inicializadores de dados para o usuários e suas movimentações;
-- Criar os métodos baseados em algum método de autênticação.
+- Criar os métodos baseados em algum método de autenticação.
 - Documentação dos endpoint`s;
 
 ## Conclusão
