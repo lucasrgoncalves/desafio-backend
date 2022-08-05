@@ -7,6 +7,7 @@ Route.get('/', async () => {
 Route.group(() => {
   
   Route.post('/login', 'AuthController.login')
+  Route.get('/movementExport', 'MovementsController.export')
 
   Route.group(() => {
     
@@ -17,6 +18,7 @@ Route.group(() => {
     
     Route.resource('accounts', 'AccountsController').apiOnly()
 
+    // Route.get('/movementExport', 'MovementsController.export')
     Route.resource('movements', 'MovementsController').apiOnly()
     Route.get('sumMovements/:user_id', 'MovementsController.sumMovements')
     
