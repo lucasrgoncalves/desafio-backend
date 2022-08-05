@@ -64,7 +64,7 @@ Nessa etapa você precisará criar a modelagem e lógica para implementar as fun
 - Criar um endpoint onde é retornado um arquivo no formato (csv) com 3 tipos de filtros para as movimentações:
   - Últimos 30 dias;
   - Passando o mês e ano por exemplo: 06/20;
-  - Todo as movimentações;
+  - Todas as movimentações;
 
 ### Etapa 3 - Nova Funcionalidades
 Nessa etapa serão itens onde veremos como você pensou e como chegou ao resultado final.
