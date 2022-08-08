@@ -1,73 +1,53 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Account from 'App/Models/Account'
-import User from 'App/Models/User'
-import { DateTime } from 'luxon'
+import User from 'App/Repositories/User'
+const userRepository = new User()
+// import User from 'App/Models/User'
 
 export default class UsersController {
   public async index({ }: HttpContextContract) {
-    return await User.all()
+    return await userRepository.index()
   }
 
   public async store({ request, response }: HttpContextContract) {
-    let data = request.only(['name', 'email', 'password', 'birthday'])
 
-    let values = data.birthday.split("-")
-    let yearBirthday = values[0]
-    let year = new Date()
-    let actualyear = year.getFullYear()
+    let userStore = await userRepository.store(request.body())
 
-    if(actualyear - yearBirthday < 18){
+    if (userStore == "menor") {
       return response.status(401).send("Apenas maiores de 18 anos podem criar uma conta.")
     }
 
-    let newUser = await User.create(data)
-
-    return response.status(201).send({ user: newUser })
+    return response.status(201).send({ user: userStore })
   }
 
   public async show({ params, response }: HttpContextContract) {
-    let { id } = params
+    let showUser = await userRepository.show(params)
 
-    let user = await User.find(id)
-
-    if (!user) {
-      return response.status(404)
+    if (!showUser) {
+      return response.status(404).send({ message: "Não foi possível listar usuários" })
     }
 
-    return user
+    return showUser
   }
 
-  public async update({ request, response }: HttpContextContract) {
-    let { id } = request.params()
+  public async update({ params, request, response }: HttpContextContract) {
+    let userUpdate = await userRepository.update(params, request.body())
 
-    let user = await User.find(id)
-
-    if (!user) {
-      return response.status(404)
+    if (!userUpdate) {
+      return response.status(404).send({ message: "Não foi possível atualizar." })
     }
 
-    let data = request.only(['name', 'email', 'password', 'birthday'])
-
-    user.merge(data)
-    await user.save()
-    await user.refresh()
-
-    return response.status(200).send({ user: user })
+    return response.status(200).send({ user: userUpdate })
   }
 
   public async destroy({ params, response, auth }: HttpContextContract) {
-    let { id } = params
+    let userDestroy = await userRepository.destroy(params, auth)
 
-    let user = await User.find(id)
-
-    let account = await Account.query().where('user_id', user!.id)
-    
-    if (!user || auth.user!.id == user.id || account.length > 0) {
-      return response.status(404).send("Não foi possível excluir.")
+    if (!userDestroy) {
+      return response.status(404).send({ message: "Não foi possível excluir." })
     }
-    
-    await user!.delete()
-    return response.status(200).send({ message: `Usuário ID ${id} excluído com sucesso!` })
+
+    return response.status(200).send({ message: `Usuário ID ${userDestroy} excluído com sucesso!` })
   }
 
 }

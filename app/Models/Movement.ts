@@ -15,6 +15,12 @@ export default class Movement extends BaseModel {
   
   @column()
   public value: number
+
+  @column()
+  public previousBalance: number
+
+  @column()
+  public currentBalance: number
   
   @belongsTo(() => Account, {
     foreignKey: 'account_id',
