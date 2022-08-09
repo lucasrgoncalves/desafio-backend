@@ -1,57 +1,42 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Account from 'App/Models/Account'
+import Account from 'App/Repositories/Account'
+const accountRepository = new Account()
 
 export default class AccountsController {
     public async index({ }: HttpContextContract) {
-        return await Account.query().preload('user')
+        return await accountRepository.index()
     }
 
     public async store({ request, response }: HttpContextContract) {
-        let data = request.only(['user_id', 'number'])
-        let newAccount = await Account.create(data)
-        await newAccount.load('user')
+        let newAccount = await accountRepository.store(request.only(['user_id', 'number']))
         return response.status(201).send(newAccount)
     }
 
     public async show({ params, response }: HttpContextContract) {
-        let { id } = params
-
-        let account = await Account.query().where('id', id).preload('user')
-
-        if (account && account.length == 0) {
-            return response.status(404)
+        let showAccount = await accountRepository.show(params)
+        if (showAccount.length == 0) {
+            return response.status(404).send({ message: `Conta ID ${params.id} não encontrada.` })
         }
-
-        return account
+        return showAccount
     }
 
     public async update({ request, response }: HttpContextContract) {
-        let { id } = request.params()
-
-        let account = await Account.find(id)
-
-        if (!account) {
-            return response.status(404)
+        let updateAccount = await accountRepository.update(request)
+        
+        if (updateAccount > 0) {
+            return response.status(404).send({ message: `ID ${updateAccount} inválido.` })
         }
 
-        let data = request.only(['user_id', 'number'])
-
-        account.merge(data)
-        await (await (await account.save()).refresh()).load('user')
-
-        return response.status(200).send(account)
+        return updateAccount
     }
 
     public async destroy({ params, response }: HttpContextContract) {
-        let { id } = params
+        let destroyAccount = await accountRepository.destroy(params)
 
-        let account = await Account.find(id)
-
-        if (!account) {
-            return response.status(404)
+        if (destroyAccount.error) {
+            return response.status(404).send({ message: `ID ${destroyAccount.id} inválido.` })
         }
 
-        await account!.delete()
-        return response.status(200).send({ message: `Conta ID ${id} excluída com sucesso!` })
+        return response.status(200).send({ message: `Conta ID ${destroyAccount} excluída com sucesso!` })
     }
 }

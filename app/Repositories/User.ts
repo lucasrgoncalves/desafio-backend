@@ -37,9 +37,7 @@ export default class User {
     }
 
     public async update(params, data) {
-        let { id } = params
-
-        let user = await UserModel.find(id)
+        let user = await UserModel.find(params.id)
 
         user!.merge(data)
         await user!.save()
@@ -49,8 +47,7 @@ export default class User {
     }
 
     public async destroy(params, auth) {
-        let { id } = params
-        let user = await UserModel.find(id)
+        let user = await UserModel.find(params.id)
         
         let account = user && user.id ? await AccountModel.query().where('user_id', user!.id) : null
 
@@ -59,6 +56,6 @@ export default class User {
         }
 
         await user.delete()
-        return id
+        return params.id
     }
 }

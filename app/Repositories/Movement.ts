@@ -12,27 +12,15 @@ export default class Movement {
 
     public async store(request) {
         let data = request.only(['account_id', 'type_id', 'value', 'previousBalance', 'currentBalance'])
-        let previousData = await MovementModel.query().orderBy('id', 'desc').first()
 
-        let previous = previousData!.currentBalance > 0 ? previousData!.currentBalance : 0
-        let current = 0
-
-        if (data.currentBalance && data.currentBalance > 0 || previousData && previousData!.currentBalance > 0) {
-            if (data.currentBalance && data.currentBalance > 0) {
-                current = data.currentBalance + data.value
-            }
-
-            if (previousData!.currentBalance && previousData!.currentBalance > 0) {
-                current = previousData!.currentBalance + data.value
-            }
-        }
+        let sum = await this.sumBalance(data)
 
         let newMovement = await MovementModel.create({
             account_id: data.account_id,
             type_id: data.type_id,
             value: data.value,
-            previousBalance: previous > 0 ? previous : data.value,
-            currentBalance: current
+            previousBalance: sum.previous > 0 ? sum.previous : data.value,
+            currentBalance: sum.current > 0 ? sum.current : data.value
         })
 
         await newMovement.load('account')
@@ -41,23 +29,36 @@ export default class Movement {
         return newMovement
     }
 
-    public async destroy(params) {
-        let { id } = params
+    private async sumBalance(data){
+        let previousData = await MovementModel.query().orderBy('id', 'desc').first()
 
-        let movement = await MovementModel.find(id)
+        let previous = previousData!.currentBalance > 0 ? previousData!.currentBalance : 0
+        let current = 0
+        let dataBalance = data.currentBalance && data.currentBalance > 0 ? data.currentBalance : previousData!.currentBalance
+
+        if (data.currentBalance && data.currentBalance > 0 || previousData!.currentBalance && previousData!.currentBalance > 0) {
+            
+            if(data.type_id === 1){
+                current = dataBalance - data.value
+            } else if(data.type_id === 2 || data.type_id === 3){
+                current = dataBalance + data.value
+            }
+        }
+        return {previous: previous, current: current}
+    }
+
+    public async destroy(params) {
+        let movement = await MovementModel.find(params.id)
 
         if (!movement) {
             return
         }
 
         await movement.delete()
-
-        return id
+        return params.id
     }
 
     public async sum(params, account_id?) {
-        let { user_id } = params
-
         let debit = 0
         let credit = 0
         let refound = 0
@@ -65,9 +66,9 @@ export default class Movement {
         let account: any
         let user: any
 
-        if (user_id) {
-            user = await UserModel.find(user_id)
-            account = await AccountModel.find(user_id)
+        if (params.user_id) {
+            user = await UserModel.find(params.user_id)
+            account = await AccountModel.find(params.user_id)
         } else {
             account = await AccountModel.find(account_id)
             user = await UserModel.find(account.userId)
@@ -98,15 +99,14 @@ export default class Movement {
         }
 
         soma = (credit - debit) + refound + user.initial_value
-
         return soma
     }
 
     public async export(request) {
-        let movements: any = await this.verifyFilters(request)
-
-        if (!movements) {
-            return
+        let movements = await this.verifyFilters(request)
+        
+        if (movements == 'error' || !movements) {
+            return "error"
         }
 
         return movements
@@ -121,7 +121,6 @@ export default class Movement {
                 roleQuery.preload('user')
             })
         } else if (filter && filter.days) {
-
             let previous = new Date()
             let actual = new Date()
             previous.setDate(actual.getDate() - filter.days)
@@ -146,6 +145,8 @@ export default class Movement {
                 .preload('type').preload('account', (roleQuery) => {
                     roleQuery.preload('user')
                 })
+        }else{
+            return "error"
         }
 
         let prepareCsv = await this.mountCsv(movements)
@@ -176,7 +177,7 @@ export default class Movement {
         for (let i in data) {
             if (data[i].type_id == 1) {
                 operation = 'Débito'
-            } else if (data[i].type_id == 1) {
+            } else if (data[i].type_id == 2) {
                 operation = 'Crédito'
             } else {
                 operation = 'Estorno'
@@ -195,9 +196,8 @@ export default class Movement {
             }
         }
 
-        let headingColumnIndex = 1 //diz que começará na primeira linha
-        headingColumnNames.forEach(heading => { //passa por todos itens do array
-            // cria uma célula do tipo string para cada título
+        let headingColumnIndex = 1
+        headingColumnNames.forEach(heading => {
             ws.cell(1, headingColumnIndex++).string(heading)
         })
 

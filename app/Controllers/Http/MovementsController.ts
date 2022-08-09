@@ -42,11 +42,10 @@ export default class MovementsController {
     public async export({ request, response }: HttpContextContract) {
         let exportMovements = await movementRepository.export(request)
 
-        if(!exportMovements){
+        if(!exportMovements || exportMovements == 'error'){
             return response.status(404)
         }
         
         return response.status(200).send({ message: 'Relatório de Movimentações gerado com sucesso!', path: exportMovements })
-
     }
 }
