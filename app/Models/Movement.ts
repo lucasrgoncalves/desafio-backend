@@ -8,11 +8,11 @@ export default class Movement extends BaseModel {
   public id: number
 
   @column()
-  public account_id:number
+  public account_id: number
 
   @column()
-  public type_id:number
-  
+  public type_id: number
+
   @column()
   public value: number
 
@@ -21,18 +21,18 @@ export default class Movement extends BaseModel {
 
   @column()
   public currentBalance: number
-  
+
   @belongsTo(() => Account, {
     foreignKey: 'account_id',
   })
-  
+
   @belongsTo(() => Account)
   public account: BelongsTo<typeof Account>
-  
+
   @belongsTo(() => MovementType, {
     foreignKey: 'type_id',
   })
-  
+
   @belongsTo(() => MovementType)
   public type: BelongsTo<typeof MovementType>
 

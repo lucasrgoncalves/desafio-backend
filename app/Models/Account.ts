@@ -10,7 +10,7 @@ export default class Account extends BaseModel {
   public user: BelongsTo<typeof User>
 
   @column()
-  public userId:number
+  public userId: number
 
   @column()
   public number: number

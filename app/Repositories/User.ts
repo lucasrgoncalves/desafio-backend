@@ -48,7 +48,7 @@ export default class User {
 
     public async destroy(params, auth) {
         let user = await UserModel.find(params.id)
-        
+
         let account = user && user.id ? await AccountModel.query().where('user_id', user!.id) : null
 
         if (!user || !account || auth.user!.id == user.id || account.length > 0) {

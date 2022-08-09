@@ -25,7 +25,7 @@ export default class User extends BaseModel {
   @column()
   public initial_value: number
 
-   @hasMany(() => Account)
+  @hasMany(() => Account)
   public user_id: HasMany<typeof Account>
 
   @column.dateTime({ autoCreate: true })
@@ -35,7 +35,7 @@ export default class User extends BaseModel {
   public updatedAt: DateTime
 
   @beforeSave()
-  public static async hashPassword (user: User) {
+  public static async hashPassword(user: User) {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }

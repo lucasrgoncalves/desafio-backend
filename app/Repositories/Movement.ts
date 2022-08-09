@@ -29,7 +29,7 @@ export default class Movement {
         return newMovement
     }
 
-    private async sumBalance(data){
+    private async sumBalance(data) {
         let previousData = await MovementModel.query().orderBy('id', 'desc').first()
 
         let previous = previousData!.currentBalance > 0 ? previousData!.currentBalance : 0
@@ -37,14 +37,14 @@ export default class Movement {
         let dataBalance = data.currentBalance && data.currentBalance > 0 ? data.currentBalance : previousData!.currentBalance
 
         if (data.currentBalance && data.currentBalance > 0 || previousData!.currentBalance && previousData!.currentBalance > 0) {
-            
-            if(data.type_id === 1){
+
+            if (data.type_id === 1) {
                 current = dataBalance - data.value
-            } else if(data.type_id === 2 || data.type_id === 3){
+            } else if (data.type_id === 2 || data.type_id === 3) {
                 current = dataBalance + data.value
             }
         }
-        return {previous: previous, current: current}
+        return { previous: previous, current: current }
     }
 
     public async destroy(params) {
@@ -104,7 +104,7 @@ export default class Movement {
 
     public async export(request) {
         let movements = await this.verifyFilters(request)
-        
+
         if (movements == 'error' || !movements) {
             return "error"
         }
@@ -145,7 +145,7 @@ export default class Movement {
                 .preload('type').preload('account', (roleQuery) => {
                     roleQuery.preload('user')
                 })
-        }else{
+        } else {
             return "error"
         }
 

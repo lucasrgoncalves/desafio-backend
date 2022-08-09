@@ -22,7 +22,7 @@ export default class MovementsController {
     public async destroy({ params, response }: HttpContextContract) {
         let userDestroy = await movementRepository.destroy(params)
 
-        if(!userDestroy){
+        if (!userDestroy) {
             return response.status(404).send({ message: "Não foi possível excluir" })
         }
 
@@ -30,9 +30,9 @@ export default class MovementsController {
     }
 
     public async sumMovements({ params, response }: HttpContextContract) {
-        let sum = await movementRepository.sum(params)        
+        let sum = await movementRepository.sum(params)
 
-        if(!sum){
+        if (!sum) {
             return response.status(404).send("Não foram encontradas movimentações.")
         }
 
@@ -42,10 +42,10 @@ export default class MovementsController {
     public async export({ request, response }: HttpContextContract) {
         let exportMovements = await movementRepository.export(request)
 
-        if(!exportMovements || exportMovements == 'error'){
+        if (!exportMovements || exportMovements == 'error') {
             return response.status(404)
         }
-        
+
         return response.status(200).send({ message: 'Relatório de Movimentações gerado com sucesso!', path: exportMovements })
     }
 }
