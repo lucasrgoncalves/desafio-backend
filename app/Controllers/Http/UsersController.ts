@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Repositories/User'
+import UserValidator from 'App/Validators/UserValidator'
 const userRepository = new User()
 
 export default class UsersController {
@@ -8,7 +9,7 @@ export default class UsersController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-
+    await request.validate(UserValidator)
     let userStore = await userRepository.store(request.body())
 
     if (userStore == "menor") {
@@ -47,5 +48,4 @@ export default class UsersController {
 
     return response.status(200).send({ message: `Usuário ID ${userDestroy} excluído com sucesso!` })
   }
-
 }

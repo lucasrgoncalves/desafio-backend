@@ -4,52 +4,52 @@ import AccountValidator from 'App/Validators/AccountValidator'
 const accountRepository = new Account()
 
 export default class AccountsController {
-    public async index({ }: HttpContextContract) {
-        return await accountRepository.index()
+  public async index({ }: HttpContextContract) {
+    return await accountRepository.index()
+  }
+
+  public async store({ request, response }: HttpContextContract) {
+    await request.validate(AccountValidator)
+    let newAccount = await accountRepository.store(request.only(['user_id', 'number']))
+
+    if (!newAccount) {
+      let { number } = request.only(['number'])
+      return response.status(404).send({ error: `Conta número ${number} indisponível.` })
     }
 
-    public async store({ request, response }: HttpContextContract) {
-        await request.validate(AccountValidator)
-        let newAccount = await accountRepository.store(request.only(['user_id', 'number']))
+    return response.status(201).send(newAccount)
+  }
 
-        if(!newAccount){
-            let { number } = request.only(['number'])
-            return response.status(404).send({ error: `Conta número ${number} indisponível.` })
-        }
+  public async show({ params, response }: HttpContextContract) {
+    let showAccount = await accountRepository.show(params)
+    if (showAccount.length == 0) {
+      return response.status(404).send({ message: `Conta ID ${params.id} não encontrada.` })
+    }
+    return showAccount
+  }
 
-        return response.status(201).send(newAccount)
+  public async update({ request, response }: HttpContextContract) {
+    await request.validate(AccountValidator)
+    let updateAccount = await accountRepository.update(request)
+
+    if (updateAccount > 0) {
+      return response.status(404).send({ message: `ID ${updateAccount} inválido.` })
     }
 
-    public async show({ params, response }: HttpContextContract) {
-        let showAccount = await accountRepository.show(params)
-        if (showAccount.length == 0) {
-            return response.status(404).send({ message: `Conta ID ${params.id} não encontrada.` })
-        }
-        return showAccount
+    return updateAccount
+  }
+
+  public async destroy({ params, response }: HttpContextContract) {
+    let destroyAccount = await accountRepository.destroy(params)
+
+    if (destroyAccount.cod) {
+      if (destroyAccount.cod == 304) {
+        return response.status(404).send({ message: "Não foi possível excluir, a conta possui movimentações." })
+      } else {
+        return response.status(404).send({ message: `ID ${destroyAccount.id} inválido.` })
+      }
     }
 
-    public async update({ request, response }: HttpContextContract) {
-        await request.validate(AccountValidator)
-        let updateAccount = await accountRepository.update(request)
-
-        if (updateAccount > 0) {
-            return response.status(404).send({ message: `ID ${updateAccount} inválido.` })
-        }
-
-        return updateAccount
-    }
-
-    public async destroy({ params, response }: HttpContextContract) {
-        let destroyAccount = await accountRepository.destroy(params)
-
-        if (destroyAccount.cod) {
-            if(destroyAccount.cod == 304){
-                return response.status(404).send({ message: "Não foi possível excluir, a conta possui movimentações." })
-            }else {
-                return response.status(404).send({ message: `ID ${destroyAccount.id} inválido.` })
-            }
-        }
-
-        return response.status(200).send({ message: `Conta ID ${destroyAccount} excluída com sucesso!` })
-    }
+    return response.status(200).send({ message: `Conta ID ${destroyAccount} excluída com sucesso!` })
+  }
 }
