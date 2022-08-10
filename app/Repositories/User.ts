@@ -4,7 +4,7 @@ import UserModel from "App/Models/User"
 export default class User {
 
   public async index() {
-    return await UserModel.query().paginate(1, 10)
+    return await UserModel.query().orderBy('id', 'desc').paginate(1, 10)
   }
 
   public async store(data) {

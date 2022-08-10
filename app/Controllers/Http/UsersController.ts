@@ -13,7 +13,7 @@ export default class UsersController {
     let userStore = await userRepository.store(request.body())
 
     if (userStore == "menor") {
-      return response.status(401).send("Apenas maiores de 18 anos podem criar uma conta.")
+      return response.status(401).send({ message: "Apenas maiores de 18 anos podem criar uma conta." })
     }
 
     return response.status(201).send({ user: userStore })
@@ -30,6 +30,7 @@ export default class UsersController {
   }
 
   public async update({ params, request, response }: HttpContextContract) {
+    await request.validate(UserValidator)
     let userUpdate = await userRepository.update(params, request.body())
 
     if (!userUpdate) {

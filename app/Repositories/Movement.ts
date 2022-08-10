@@ -7,11 +7,20 @@ import xl from 'excel4node'
 
 export default class Movement {
   public async index() {
-    return await MovementModel.query().preload('account').preload('type').paginate(1, 10)
+    return await MovementModel.query().preload('account', (queryAccount) => {
+      queryAccount.preload('user')
+    })
+      .preload('type')
+      .paginate(1, 10)
   }
 
   public async store(request) {
     let data = request.only(['account_id', 'type_id', 'value', 'previousBalance', 'currentBalance'])
+    let account = await AccountModel.query().where('id', data.account_id)
+
+    if (!account || account.length == 0) {
+      return
+    }
 
     let sum = await this.sumBalance(data)
 
@@ -47,15 +56,26 @@ export default class Movement {
     return { previous: previous, current: current }
   }
 
-  public async destroy(params) {
-    let movement = await MovementModel.find(params.id)
+  public async destroy(params, request) {
+    let validated = await this.validateParamsDestroy(params, request)
 
-    if (!movement) {
+    if (validated.status == true) {
+      return request.movement_id
+    } else {
       return
     }
+  }
 
-    await movement.delete()
-    return params.id
+  private async validateParamsDestroy(params, request) {
+    let user = await UserModel.query().where('id', params.id).first()
+    let movement = await MovementModel.query().where('id', request.movement_id).preload('account').first()
+
+    if (movement && user && movement.account.userId == user.id) {
+      await movement.delete()
+      return { status: true }
+    } else {
+      return { status: false }
+    }
   }
 
   public async sum(params, account_id?) {
@@ -149,8 +169,12 @@ export default class Movement {
       return "error"
     }
 
-    let prepareCsv = await this.mountCsv(movements)
-    return prepareCsv
+    if (movements && movements.length > 0) {
+      let prepareCsv = await this.mountCsv(movements)
+      return prepareCsv
+    } else {
+      return "error"
+    }
   }
 
   private async mountCsv(data) {

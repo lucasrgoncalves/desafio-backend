@@ -21,8 +21,8 @@ export default class MovementsController {
     return response.status(201).send(movementStore)
   }
 
-  public async destroy({ params, response }: HttpContextContract) {
-    let userDestroy = await movementRepository.destroy(params)
+  public async destroy({ params, request, response }: HttpContextContract) {
+    let userDestroy = await movementRepository.destroy(params, request.only(['movement_id']))
 
     if (!userDestroy) {
       return response.status(404).send({ message: "Não foi possível excluir" })
