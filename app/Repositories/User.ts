@@ -58,4 +58,18 @@ export default class User {
     await user.delete()
     return params.id
   }
+
+  public async updateInitialValue(params, request) {
+    let user = await UserModel.find(params.id)
+
+    if (!user) {
+      return
+    }
+
+    user!.merge(request)
+    await user!.save()
+    await user!.refresh()
+
+    return user
+  }
 }

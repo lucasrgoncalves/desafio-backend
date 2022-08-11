@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Repositories/User'
+import UserUpdateValueValidator from 'App/Validators/UserUpdateValueValidator'
 import UserValidator from 'App/Validators/UserValidator'
 const userRepository = new User()
 
@@ -48,5 +49,16 @@ export default class UsersController {
     }
 
     return response.status(200).send({ message: `Usuário ID ${userDestroy} excluído com sucesso!` })
+  }
+
+  public async updateInitialValue({ params, request, response }: HttpContextContract) {
+    await request.validate(UserUpdateValueValidator)
+    let updateInitialValue = await userRepository.updateInitialValue(params, request.body())
+
+    if (!updateInitialValue) {
+      return response.status(404)
+    }
+
+    return response.status(200).send({ user: updateInitialValue })
   }
 }
