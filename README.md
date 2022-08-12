@@ -13,6 +13,8 @@ Detalhes do Desafio em: https://github.com/owInteractive/desafio-backend
 Os seguintes softwares serão necessários para rodar o projeto (Windows ou Linux):
 <ul>
     <li>Docker</li>
+    <li>Node</li>
+    <li>Npm</li>
 </ul>
 
 ## Documentação da API:
@@ -42,6 +44,7 @@ https://app.swaggerhub.com/apis/LUCASGONCALVES/Desafio-OW-Interactive/1.0.0
 <p><b>OBS:</b> Há um diretório na raiz do projeto chamado "Postman" que contém os arquivos de teste da API já prontos, basta apenas importá-lo e iniciar os testes.</p>
 
 <p>5-Antes de iniciar os testes na API, é necessário que seja gerado um novo token na rota /login da autenticação.</p>
+
 ## Recursos Utilizados:
 
 <ul>
