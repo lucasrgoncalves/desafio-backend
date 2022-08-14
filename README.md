@@ -30,8 +30,8 @@ https://app.swaggerhub.com/apis/LUCASGONCALVES/Desafio-OW-Interactive/1.0.0
 <p>Comandos:</p>
 <ul>
     <p><code>npm install</code></p>
-    <p><code>node ace migration:run --seed</code></p>
     <p><code>docker-compose up -d</code></p>
+    <p><code>node ace migration:run --seed</code></p>
     <p><code>npm run dev</code></p>
 </ul>
 
